@@ -16,7 +16,7 @@ const Dashboard = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-xl font-bold">Dashboard</h1>
+            <h1 className="text-xl font-bold">Suivi des Revenus et Dépenses</h1>
             {data ? data.length > 0 && (
                 <table className="table-auto w-full mt-6">
                     <thead>
@@ -25,6 +25,7 @@ const Dashboard = () => {
                             <th className="border px-4 py-2">Type</th>
                             <th className="border px-4 py-2">Amount</th>
                             <th className="border px-4 py-2">Description</th>
+                            <th className="py-2 px-4 text-left">Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@ const Dashboard = () => {
                           <td className="border px-4 py-2">{transaction.type}</td>
                           <td className="border px-4 py-2">{transaction.amount}</td>
                           <td className="border px-4 py-2">{transaction.description}</td>
+                            <td className="border px-4 py-2">{transaction.created_at}</td>
                         </tr>
                       ))}
                     </tbody>

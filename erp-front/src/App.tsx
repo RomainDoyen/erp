@@ -1,5 +1,5 @@
 import './App.css'
-import Dashboard from './components/Dashboard'
+import RevenuesAndExpenses from './components/RevenuesAndExpenses'
 import Form from './components/Form'
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Form />
-      <Dashboard />
+      <RevenuesAndExpenses />
     </>
   )
 }
