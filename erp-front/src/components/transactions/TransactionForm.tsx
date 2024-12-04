@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { fetchData, createData } from "../utils/axios";
+import { fetchData, createData } from "../../utils/axios";
 import axios from "axios";
 import { useState } from "react";
 

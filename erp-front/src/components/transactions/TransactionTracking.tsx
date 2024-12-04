@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchData, updateData, deleteData } from '../utils/axios';
+import { fetchData, updateData, deleteData } from '../../utils/axios';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);

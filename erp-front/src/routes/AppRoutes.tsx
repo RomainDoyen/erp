@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from '../Pages/Navbar';
 import Home from '../Pages/Home';
-import TransactionForm from '../components/TransactionForm';
-import TransactionTracking from '../components/TransactionTracking';
+import TransactionForm from '../components/transactions/TransactionForm';
+import TransactionTracking from '../components/transactions/TransactionTracking';
 
 const AppRoutes = () => {
     return (
