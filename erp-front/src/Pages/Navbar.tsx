@@ -24,6 +24,22 @@ const Navbar = () => {
                             Suivi des Transactions
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            to="/add-invoice"
+                            className="hover:text-gray-300 transition duration-200"
+                        >
+                            Formulaire de Facture
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/tracking-invoice"
+                            className="hover:text-gray-300 transition duration-200"
+                        >
+                            Suivi des Factures
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </nav>
