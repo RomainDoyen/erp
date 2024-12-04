@@ -1,13 +1,13 @@
 import './App.css'
-import RevenuesAndExpenses from './components/RevenuesAndExpenses'
-import Form from './components/Form'
+import TransactionTracking from './components/TransactionTracking'
+import TransactionForm from './components/TransactionForm'
 
 function App() {
 
   return (
     <>
-      <Form />
-      <RevenuesAndExpenses />
+      <TransactionForm />
+      <TransactionTracking />
     </>
   )
 }

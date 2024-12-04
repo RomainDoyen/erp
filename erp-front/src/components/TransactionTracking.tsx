@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../utils/axios';
 
-const Dashboard = () => {
+export default function TransactionTracking() {
     const [data, setData] = useState([]);
     const [editingTransaction, setEditingTransaction] = useState<any | null>(null);
     
@@ -169,5 +169,3 @@ const Dashboard = () => {
         </div>
     );
 };
-
-export default Dashboard;
