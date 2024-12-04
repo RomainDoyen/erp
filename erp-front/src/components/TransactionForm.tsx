@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { fetchData, createData } from "../utils/axios";
 import axios from "axios";
 import { useState } from "react";
 
@@ -30,16 +31,8 @@ export default function TransactionForm() {
     console.log("Données formatées envoyées :", formattedData);
 
     try {
-      const token = await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
-      console.log(token.data);
-      const response = await axios.post("http://127.0.0.1:8000/transactions", formattedData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-XSRF-TOKEN": token.data,
-        },
-      });
-
+      await fetchData("sanctum/csrf-cookie");
+      const response = await createData("transactions", formattedData);
       console.log("Transaction créée avec succès :", response.data);
       alert("Transaction créée avec succès !");
     } catch (error) {
