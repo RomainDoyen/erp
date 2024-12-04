@@ -2,7 +2,7 @@ const Home = () => {
   return (
       <div className="text-center mt-10">
           <h1 className="text-4xl font-bold text-gray-800">
-              Bienvenue sur l'application de Gestion des Transactions
+              Bienvenue sur l'application de Gestion financière et comptabilité
           </h1>
           <p className="mt-4 text-gray-600 text-lg">
               Gérez vos revenus et dépenses facilement avec notre interface intuitive.
