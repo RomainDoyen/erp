@@ -1,15 +1,8 @@
-import './App.css'
-import TransactionTracking from './components/TransactionTracking'
-import TransactionForm from './components/TransactionForm'
+import './App.css';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
-
-  return (
-    <>
-      <TransactionForm />
-      <TransactionTracking />
-    </>
-  )
+    return <AppRoutes />;
 }
 
-export default App
+export default App;
