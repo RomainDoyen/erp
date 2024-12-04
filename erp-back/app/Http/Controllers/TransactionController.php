@@ -66,6 +66,8 @@ class TransactionController extends Controller
             'description' => 'nullable|string|max:255',
         ]);
 
+        $validatedData['amount'] = str_replace(',', '', $validatedData['amount']);
+
         $transaction->update($validatedData);
 
         return response()->json($transaction, 200);

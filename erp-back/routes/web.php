@@ -8,9 +8,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/csrf-token', function () {
+Route::get('/sanctum/csrf-cookie', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
+
+Route::options('{any}', function () {
+    return response('', 200)
+        ->header('Access-Control-Allow-Origin', 'http://localhost:5173')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization');
+})->where('any', '.*');
 
 Route::apiResource('transactions', TransactionController::class);
 

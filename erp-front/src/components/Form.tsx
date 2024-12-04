@@ -30,11 +30,13 @@ export default function TransactionForm() {
     console.log("Données formatées envoyées :", formattedData);
 
     try {
-      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+      const token = await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+      console.log(token.data);
       const response = await axios.post("http://127.0.0.1:8000/transactions", formattedData, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
+          "X-XSRF-TOKEN": token.data,
         },
       });
 

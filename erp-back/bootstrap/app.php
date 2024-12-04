@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            env('APP_URL_FRONTEND') . '/transactions'
+            env('APP_URL_FRONTEND') . '*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
