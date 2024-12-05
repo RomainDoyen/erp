@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
+import FormInput from '../ui/FormInput';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -111,54 +112,40 @@ export default function InvoiceList() {
     
       {editingInvoice && (
         <form onSubmit={handleFormSubmit} className="mt-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Client</label>
-            <input
-              type="text"
-              name="customer_name"
-              value={formData.customer_name}
-              onChange={e => setFormData({ ...formData, customer_name: e.target.value })}
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Montant</label>
-            <input
-              type="number"
-              name="amount"
-              value={formData.amount}
-              onChange={e => setFormData({ ...formData, amount: e.target.value })}
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Date d'échéance</label>
-            <input
-              type="date"
-              name="due_date"
-              value={formData.due_date}
-              onChange={e => setFormData({ ...formData, due_date: e.target.value })}
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Statut</label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={e => setFormData({ ...formData, status: e.target.value })}
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            >
-              <option value="Paid">Paid</option>
-              <option value="Pending">Pending</option>
-              <option value="Overdue">Overdue</option>
-            </select>
-          </div>
+          <FormInput
+            label="Client"
+            type="text"
+            name="customer_name"
+            value={formData.customer_name}
+            onChange={e => setFormData({ ...formData, customer_name: e.target.value })}
+          />
+          <FormInput 
+            label="Montant"
+            type="number"
+            name="amount"
+            value={formData.amount}
+            onChange={e => setFormData({ ...formData, amount: e.target.value })}
+          />
+          <FormInput
+            label="Date d'échéance"
+            type="date"
+            name="due_date"
+            value={formData.due_date}
+            onChange={e => setFormData({ ...formData, due_date: e.target.value })}
+          />
+          <FormInput
+            label="Statut"
+            type="select"
+            name="status"
+            value={formData.status}
+            onChange={e => setFormData({ ...formData, status: e.target.value })}
+            options={["Paid", "Pending", "Overdue"]}
+          />
           <Button
             type="submit"
-            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded"
+            className="mt-4 bg-green-500 hover:bg-blue-600 text-white p-2 rounded"
           >
-            Modifier
+            Mettre à jour
           </Button>
         </form>
       )}

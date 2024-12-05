@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
+import FormInput from '../ui/FormInput';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -120,46 +121,32 @@ export default function TransactionTracking() {
                 <div className="mt-6">
                     <h2 className="text-xl font-bold">Modifier la transaction</h2>
                     <form onSubmit={handleFormSubmit} className="space-y-4">
-                        <div>
-                            <label htmlFor="type" className="block text-sm font-medium text-gray-700">Type</label>
-                            <select
-                                id="type"
-                                name="type"
-                                value={formData.type}
-                                onChange={handleInputChange}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            >
-                                <option value="Revenue">Revenue</option>
-                                <option value="Expense">Expense</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Montant</label>
-                            <input
-                                type="number"
-                                id="amount"
-                                name="amount"
-                                value={formData.amount}
-                                onChange={handleInputChange}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                            <input
-                                type="text"
-                                id="description"
-                                name="description"
-                                value={formData.description}
-                                onChange={handleInputChange}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            />
-                        </div>
+                        <FormInput
+                            label="Type"
+                            type="select"
+                            name="type"
+                            value={formData.type}
+                            onChange={handleInputChange}
+                            options={["Revenue", "Expense"]}
+                        />
+                        <FormInput
+                            label="Montant"
+                            type="number"
+                            name="amount"
+                            value={formData.amount}
+                            onChange={handleInputChange}
+                        />
+                        <FormInput
+                            label="Description"
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                        />
                         <div>
                             <Button
+                                type="submit"
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                onClick={() => setEditingTransaction(null)}
                             >
                                 Mettre à jour
                             </Button>
