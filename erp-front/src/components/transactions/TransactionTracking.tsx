@@ -97,13 +97,13 @@ export default function TransactionTracking() {
                                 <td className="border px-4 py-2">{transaction.created_at}</td>
                                 <td className="border px-4 py-2">
                                     <Button 
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                        theme='primary'
                                         onClick={() => editTransaction(transaction.id)}
                                     >
                                         Modifier
                                     </Button>
                                     <Button
-                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                        theme='secondary'
                                         onClick={() => deleteTransaction(transaction.id)}
                                     >
                                         Supprimer
