@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { fetchData, createData } from "../../utils/axios";
 import FormInput from "../ui/FormInput";
+import Button from "../ui/Button";
 import axios from "axios";
 import { useState } from "react";
 
@@ -53,7 +54,7 @@ export default function InvoiceForm() {
     <div className="p-6">
       <h1 className="text-xl font-bold">Formulaire des Revenus et Dépenses</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Nom du client */}
+
         <FormInput
           label="Nom du client"
           type="text"
@@ -68,7 +69,6 @@ export default function InvoiceForm() {
           error={errors.customer_name?.message}
         />
 
-        {/* Montant */}
         <FormInput
           label="Montant"
           type="number"
@@ -80,7 +80,6 @@ export default function InvoiceForm() {
           error={errors.amount?.message}
         />
 
-        {/* Date d'échéance */}
         <FormInput
           label="Échéance"
           type="date"
@@ -93,7 +92,6 @@ export default function InvoiceForm() {
           error={errors.due_date?.message}
         />
 
-        {/* Statut */}
         <FormInput
           label="Statut"
           type="select"
@@ -107,8 +105,7 @@ export default function InvoiceForm() {
           error={errors.status?.message}
         />
 
-        {/* Bouton de soumission */}
-        <button
+        <Button
           type="submit"
           className={`w-full p-2 text-white ${
             isSubmitting ? "bg-gray-500" : "bg-blue-500"
@@ -116,9 +113,8 @@ export default function InvoiceForm() {
           disabled={isSubmitting}
         >
           {isSubmitting ? "Envoi en cours..." : "Soumettre"}
-        </button>
+        </Button>
 
-        {/* Erreur de soumission */}
         {submissionError && (
           <div className="text-red-500 text-sm mt-2">{submissionError}</div>
         )}

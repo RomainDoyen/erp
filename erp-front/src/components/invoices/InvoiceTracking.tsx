@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
+import Button from '../ui/Button';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -87,18 +88,18 @@ export default function InvoiceList() {
                 <td className="border px-4 py-2">{invoice.due_date}</td>
                 <td className="border px-4 py-2">{invoice.status}</td>
                 <td className="border px-4 py-2">
-                  <button 
+                  <Button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => editInvoice(invoice.id)}
                   >
                     Modifier
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
                     onClick={() => deleteInvoice(invoice.id)}
                   >
                     Supprimer
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -153,9 +154,12 @@ export default function InvoiceList() {
               <option value="Overdue">Overdue</option>
             </select>
           </div>
-          <button type="submit" className="mt-4 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">
+          <Button
+            type="submit"
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded"
+          >
             Modifier
-          </button>
+          </Button>
         </form>
       )}
     </div>
