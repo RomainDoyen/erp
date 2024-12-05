@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
+import Table from '../ui/Table';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -71,41 +72,31 @@ export default function InvoiceList() {
     <div className="p-6">
       <h1 className="text-xl font-bold">Liste des Factures</h1>
       {invoices.length > 0 ? (
-        <table className="w-full mt-4">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2">Nom du client</th>
-              <th className="border px-4 py-2">Montant</th>
-              <th className="border px-4 py-2">Date d'échéance</th>
-              <th className="border px-4 py-2">Statut</th>
-              <th className="border px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.map((invoice: any) => (
-              <tr key={invoice.id}>
-                <td className="border px-4 py-2">{invoice.customer_name}</td>
-                <td className="border px-4 py-2">{invoice.amount}</td>
-                <td className="border px-4 py-2">{invoice.due_date}</td>
-                <td className="border px-4 py-2">{invoice.status}</td>
-                <td className="border px-4 py-2">
-                  <Button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => editInvoice(invoice.id)}
-                  >
-                    Modifier
-                  </Button>
-                  <Button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                    onClick={() => deleteInvoice(invoice.id)}
-                  >
-                    Supprimer
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          data={invoices}
+          columns={[
+            { header: 'Nom du client', accessor: (row: any) => row.customer_name },
+            { header: 'Montant', accessor: (row: any) => row.amount },
+            { header: 'Date d\'échéance', accessor: (row: any) => row.due_date },
+            { header: 'Statut', accessor: (row: any) => row.status }
+          ]}
+          actions={(row: any) => (
+            <>
+              <Button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => editInvoice(row.id)}
+              >
+                Modifier
+              </Button>
+              <Button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => deleteInvoice(row.id)}
+              >
+                Supprimer
+              </Button>
+            </>
+          )}
+        />
       ) : (
         <p className="mt-6">Aucune facture trouvée.</p>
       )}

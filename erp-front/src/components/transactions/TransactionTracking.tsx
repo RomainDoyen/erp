@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
+import Table from '../ui/Table';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -76,43 +77,32 @@ export default function TransactionTracking() {
         <div className="p-6">
             <h1 className="text-xl font-bold">Suivi des Revenus et Dépenses</h1>
             {data.length > 0 ? (
-                <table className="table-auto w-full mt-6">
-                    <thead>
-                        <tr>
-                            <th className="border px-4 py-2">ID</th>
-                            <th className="border px-4 py-2">Type</th>
-                            <th className="border px-4 py-2">Montant</th>
-                            <th className="border px-4 py-2">Déscription</th>
-                            <th className="py-2 px-4 text-left">Date</th>
-                            <th className="py-2 px-4 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((transaction: any) => (
-                            <tr key={transaction.id}>
-                                <td className="border px-4 py-2">{transaction.id}</td>
-                                <td className="border px-4 py-2">{transaction.type}</td>
-                                <td className="border px-4 py-2">{transaction.amount}</td>
-                                <td className="border px-4 py-2">{transaction.description}</td>
-                                <td className="border px-4 py-2">{transaction.created_at}</td>
-                                <td className="border px-4 py-2">
-                                    <Button 
-                                        theme='primary'
-                                        onClick={() => editTransaction(transaction.id)}
-                                    >
-                                        Modifier
-                                    </Button>
-                                    <Button
-                                        theme='secondary'
-                                        onClick={() => deleteTransaction(transaction.id)}
-                                    >
-                                        Supprimer
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <Table
+                    data={data}
+                    columns={[
+                        { header: 'ID', accessor: (row: any) => row.id },
+                        { header: 'Type', accessor: (row: any) => row.type },
+                        { header: 'Montant', accessor: (row: any) => row.amount },
+                        { header: 'Description', accessor: (row: any) => row.description },
+                        { header: 'Date', accessor: (row: any) => row.created_at }
+                    ]}
+                    actions={(row: any) => (
+                        <>
+                            <Button 
+                                theme='primary'
+                                onClick={() => editTransaction(row.id)}
+                            >
+                                Modifier
+                            </Button>
+                            <Button
+                                theme='secondary'
+                                onClick={() => deleteTransaction(row.id)}
+                            >
+                                Supprimer
+                            </Button>
+                        </>
+                    )}
+                />
             ) : (
                 <p className="mt-6">Aucune transaction disponible</p>
             )}
