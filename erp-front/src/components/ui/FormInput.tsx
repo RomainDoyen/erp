@@ -1,40 +1,51 @@
+import React from "react";
+
 type FormInputProps = {
   label: string;
   type: string;
   name: string;
-  value?: string | number;
-  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
   error?: string;
   options?: string[];
-};
+} & React.InputHTMLAttributes<HTMLInputElement | HTMLSelectElement>;
 
-const FormInput = ({ label, type, name, value, onChange, error, options }: FormInputProps) => {
+const FormInput = React.forwardRef<
+  HTMLInputElement | HTMLSelectElement,
+  FormInputProps
+>(({ label, type, name, error, options, ...rest }, ref) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700">{label}</label>
       {type === "select" ? (
         <select
           name={name}
-          value={value}
-          onChange={onChange}
-          className={`block w-full p-2 border ${error ? "border-red-500" : "border-gray-300"} rounded`}
+          ref={ref as React.Ref<HTMLSelectElement>}
+          className={`block w-full p-2 border ${
+            error ? "border-red-500" : "border-gray-300"
+          } rounded`}
+          {...rest}
         >
           {options?.map((option) => (
-            <option key={option} value={option}>{option}</option>
+            <option key={option} value={option}>
+              {option}
+            </option>
           ))}
         </select>
       ) : (
         <input
           type={type}
           name={name}
-          value={value}
-          onChange={onChange}
-          className={`block w-full p-2 border ${error ? "border-red-500" : "border-gray-300"} rounded`}
+          ref={ref as React.Ref<HTMLInputElement>}
+          className={`block w-full p-2 border ${
+            error ? "border-red-500" : "border-gray-300"
+          } rounded`}
+          {...rest}
         />
       )}
       {error && <span className="text-red-500 text-sm">{error}</span>}
     </div>
   );
-};
+});
+
+FormInput.displayName = "FormInput";
 
 export default FormInput;
