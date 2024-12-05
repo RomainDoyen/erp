@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchData, updateData, deleteData } from '../../utils/axios';
+import Button from '../ui/Button';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -94,18 +95,18 @@ export default function TransactionTracking() {
                                 <td className="border px-4 py-2">{transaction.description}</td>
                                 <td className="border px-4 py-2">{transaction.created_at}</td>
                                 <td className="border px-4 py-2">
-                                    <button
+                                    <Button 
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                         onClick={() => editTransaction(transaction.id)}
                                     >
                                         Modifier
-                                    </button>
-                                    <button
+                                    </Button>
+                                    <Button
                                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                         onClick={() => deleteTransaction(transaction.id)}
                                     >
                                         Supprimer
-                                    </button>
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
@@ -156,12 +157,12 @@ export default function TransactionTracking() {
                             />
                         </div>
                         <div>
-                            <button
-                                type="submit"
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            <Button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                onClick={() => setEditingTransaction(null)}
                             >
                                 Mettre à jour
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>
