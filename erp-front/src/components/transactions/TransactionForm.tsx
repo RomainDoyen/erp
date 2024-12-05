@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { fetchData, createData } from "../../utils/axios";
+import FormInput from "../ui/FormInput";
 import axios from "axios";
 import { useState } from "react";
 
@@ -49,55 +50,39 @@ export default function TransactionForm() {
     <div className="p-6">
       <h1 className="text-xl font-bold">Formulaire des Revenus et Dépenses</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Type</label>
-          <select {...register('type')} defaultValue="">
-            <option value="">Sélectionnez un type</option>
-            <option value="Revenue">Revenue</option>
-            <option value="Expense">Expense</option>
-          </select>
-          {errors.type && (
-            <span className="text-red-500 text-sm">{errors.type.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Montant</label>
-          <input
-            type="number"
-            step="0.01"
-            className={`block w-full p-2 border ${
-              errors.amount ? "border-red-500" : "border-gray-300"
-            } rounded`}
-            placeholder="Montant"
-            {...register("amount", { required: "Le montant est requis", min: 0 })}
-          />
-          {errors.amount && (
-            <span className="text-red-500 text-sm">{errors.amount.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
-          <input
-            className={`block w-full p-2 border ${
-              errors.description ? "border-red-500" : "border-gray-300"
-            } rounded`}
-            placeholder="Description"
-            {...register("description", {
-              required: "La description est requise",
-              maxLength: {
-                value: 255,
-                message: "La description ne peut pas dépasser 255 caractères",
-              },
-            })}
-          />
-          {errors.description && (
-            <span className="text-red-500 text-sm">
-              {errors.description.message}
-            </span>
-          )}
-        </div>
+        {/* Type */}
+        <FormInput
+          label="Type"
+          type="select"
+          name="type"
+          options={["Sélectionnez un type", "Revenue", "Expense"]}
+          {...register("type", { required: "Le type est requis" })}
+          error={errors.type?.message}
+        />
+          
+        {/* Montant */}
+        <FormInput
+          label="Montant"
+          type="number"
+          name="amount"
+          {...register("amount", { required: "Le montant est requis", min: 0 })}
+          error={errors.amount?.message}
+        />
+          
+        {/* Description */}
+        <FormInput
+          label="Description"
+          type="text"
+          name="description"
+          {...register("description", {
+            required: "La description est requise",
+            maxLength: {
+              value: 255,
+              message: "La description ne peut pas dépasser 255 caractères",
+            },
+          })}
+          error={errors.description?.message}
+        />
 
         <button
           type="submit"
