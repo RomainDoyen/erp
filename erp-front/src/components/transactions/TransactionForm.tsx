@@ -4,24 +4,19 @@ import FormInput from "../ui/FormInput";
 import Button from "../ui/Button";
 import axios from "axios";
 import { useState } from "react";
-
-type Inputs = {
-  type: string;
-  amount: number;
-  description: string;
-};
+import { InputsTransaction } from "../../types/typesComponents";
 
 export default function TransactionForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<InputsTransaction>();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<InputsTransaction> = async (data) => {
     setIsSubmitting(true);
     setSubmissionError(null);
 

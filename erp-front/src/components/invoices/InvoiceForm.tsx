@@ -4,25 +4,19 @@ import FormInput from "../ui/FormInput";
 import Button from "../ui/Button";
 import axios from "axios";
 import { useState } from "react";
-
-type Inputs = {
-  customer_name: string;
-  amount: number;
-  due_date: string;
-  status: string;
-};
+import { InputsInvoice } from "../../types/typesComponents";
 
 export default function InvoiceForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<InputsInvoice>();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<InputsInvoice> = async (data) => {
     setIsSubmitting(true);
     setSubmissionError(null);
 
