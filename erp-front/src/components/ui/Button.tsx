@@ -1,14 +1,4 @@
-import React from "react";
-
-type ButtonProps = {
-  children: React.ReactNode | string;
-  className?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  type?: "button" | "submit" | "reset";
-  theme?: "primary" | "secondary";
-  disabled?: boolean;
-  loading?: boolean;
-};
+import { ButtonProps } from "../../types/typesUI";
 
 const Button = ({
   children,

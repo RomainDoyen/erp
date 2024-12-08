@@ -1,12 +1,5 @@
 import React from "react";
-
-type FormInputProps = {
-  label: string;
-  type: string;
-  name: string;
-  error?: string;
-  options?: string[];
-} & React.InputHTMLAttributes<HTMLInputElement | HTMLSelectElement>;
+import { FormInputProps } from "../../types/typesUI";
 
 const FormInput = React.forwardRef<
   HTMLInputElement | HTMLSelectElement,

@@ -1,14 +1,4 @@
-type Column<T> = {
-  header: string;
-  accessor: (row: T) => React.ReactNode;
-}
-
-
-type TableProps<T> = {
-  data: T[];
-  columns: Column<T>[];
-  actions?: (row: T) => React.ReactNode;
-}
+import { TableProps } from "../../types/typesUI";
 
 const Table = <T,>({ data, columns, actions }: TableProps<T>): JSX.Element => {
   return (
