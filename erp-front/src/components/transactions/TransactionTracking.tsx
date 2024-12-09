@@ -4,10 +4,12 @@ import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
 import { transactionsInputConfig } from '../data/transactionsInputData';
+import Spinner from '../ui/Spinner';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
     const [editingTransaction, setEditingTransaction] = useState<any | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     
     const [formData, setFormData] = useState({
         type: '',
@@ -15,15 +17,18 @@ export default function TransactionTracking() {
         description: '',
     });
 
+    const getData = async () => {
+        setIsLoading(true);
+        try {
+            const result = await fetchData('transactions');
+            setData(result);
+        } catch (error) {
+            console.error(error);
+        }
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const result = await fetchData('transactions');
-                setData(result);
-            } catch (error) {
-                console.error(error);
-            }
-        };
         getData();
     }, []);
 
@@ -77,35 +82,41 @@ export default function TransactionTracking() {
     return (
         <div className="p-6">
             <h1 className="text-xl font-bold">Suivi des Revenus et Dépenses</h1>
-            {data.length > 0 ? (
-                <Table
-                    data={data}
-                    columns={[
-                        { header: 'ID', accessor: (row: any) => row.id },
-                        { header: 'Type', accessor: (row: any) => row.type },
-                        { header: 'Montant', accessor: (row: any) => row.amount },
-                        { header: 'Description', accessor: (row: any) => row.description },
-                        { header: 'Date', accessor: (row: any) => row.created_at }
-                    ]}
-                    actions={(row: any) => (
-                        <>
-                            <Button 
-                                theme='primary'
-                                onClick={() => editTransaction(row.id)}
-                            >
-                                Modifier
-                            </Button>
-                            <Button
-                                theme='secondary'
-                                onClick={() => deleteTransaction(row.id)}
-                            >
-                                Supprimer
-                            </Button>
-                        </>
-                    )}
-                />
+            {isLoading ? (
+                <Spinner />
             ) : (
-                <p className="mt-6">Aucune transaction disponible</p>
+                <>
+                    {data.length > 0 ? (
+                        <Table
+                            data={data}
+                            columns={[
+                                { header: 'ID', accessor: (row: any) => row.id },
+                                { header: 'Type', accessor: (row: any) => row.type },
+                                { header: 'Montant', accessor: (row: any) => row.amount },
+                                { header: 'Description', accessor: (row: any) => row.description },
+                                { header: 'Date', accessor: (row: any) => row.created_at }
+                            ]}
+                            actions={(row: any) => (
+                                <>
+                                    <Button 
+                                        theme='primary'
+                                        onClick={() => editTransaction(row.id)}
+                                    >
+                                        Modifier
+                                    </Button>
+                                    <Button
+                                        theme='secondary'
+                                        onClick={() => deleteTransaction(row.id)}
+                                    >
+                                        Supprimer
+                                    </Button>
+                                </>
+                            )}
+                        />
+                    ) : (
+                        <p className="mt-6">Aucune transaction disponible</p>
+                    )}
+                </>
             )}
 
             {editingTransaction && (

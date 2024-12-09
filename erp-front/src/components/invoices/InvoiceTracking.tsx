@@ -4,10 +4,12 @@ import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
 import { invoicesInputConfig } from '../data/invoicesInputData';
+import Spinner from '../ui/Spinner';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
   const [editingInvoice, setEditingInvoice] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     customer_name: '',
@@ -17,12 +19,14 @@ export default function InvoiceList() {
   });
 
   const fetchInvoices = async () => {
+    setIsLoading(true);
     try {
       const result = await fetchData('invoices');
       setInvoices(result);
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -72,34 +76,40 @@ export default function InvoiceList() {
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold">Liste des Factures</h1>
-      {invoices.length > 0 ? (
-        <Table
-          data={invoices}
-          columns={[
-            { header: 'Nom du client', accessor: (row: any) => row.customer_name },
-            { header: 'Montant', accessor: (row: any) => row.amount },
-            { header: 'Date d\'échéance', accessor: (row: any) => row.due_date },
-            { header: 'Statut', accessor: (row: any) => row.status }
-          ]}
-          actions={(row: any) => (
-            <>
-              <Button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => editInvoice(row.id)}
-              >
-                Modifier
-              </Button>
-              <Button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => deleteInvoice(row.id)}
-              >
-                Supprimer
-              </Button>
-            </>
-          )}
-        />
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <p className="mt-6">Aucune facture trouvée.</p>
+        <>
+          {invoices.length > 0 ? (
+            <Table
+              data={invoices}
+              columns={[
+                { header: 'Nom du client', accessor: (row: any) => row.customer_name },
+                { header: 'Montant', accessor: (row: any) => row.amount },
+                { header: 'Date d\'échéance', accessor: (row: any) => row.due_date },
+                { header: 'Statut', accessor: (row: any) => row.status }
+              ]}
+              actions={(row: any) => (
+                <>
+                  <Button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => editInvoice(row.id)}
+                  >
+                    Modifier
+                  </Button>
+                  <Button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => deleteInvoice(row.id)}
+                  >
+                    Supprimer
+                  </Button>
+                </>
+              )}
+            />
+          ) : (
+            <p className="mt-6">Aucune facture trouvée.</p>
+          )}
+        </>
       )}
     
       {editingInvoice && (
