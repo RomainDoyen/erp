@@ -5,6 +5,7 @@ import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
 import { transactionsInputConfig } from '../data/transactionsInputData';
 import Spinner from '../ui/Spinner';
+import Modal from '../ui/Modal';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -79,6 +80,10 @@ export default function TransactionTracking() {
         }));
     };
 
+    const closeModal = () => {
+        setEditingTransaction(null);
+    };
+
     return (
         <div className="p-6">
             <h1 className="text-xl font-bold">Suivi des Revenus et Dépenses</h1>
@@ -120,32 +125,34 @@ export default function TransactionTracking() {
             )}
 
             {editingTransaction && (
-                <div className="mt-6">
-                    <h2 className="text-xl font-bold">Modifier la transaction</h2>
-                    <form onSubmit={handleFormSubmit} className="space-y-4">
-                        {transactionsInputConfig
-                        .filter(input => !(editingTransaction && input.type === "date"))
-                        .map((input, index) => (
-                            <FormInput
-                            key={index}
-                            label={input.label}
-                            type={input.type}
-                            name={input.name}
-                            value={formData[input.name as keyof typeof formData]}
-                            onChange={handleInputChange}
-                            options={input.options}
-                            />
-                        ))}
-                        <div>
-                            <Button
-                                type="submit"
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Mettre à jour
-                            </Button>
-                        </div>
-                    </form>
-                </div>
+                <Modal isOpen={!!editingTransaction} onClose={closeModal}>
+                    <div className="mt-6">
+                        <h2 className="text-xl font-bold">Modifier la transaction</h2>
+                        <form onSubmit={handleFormSubmit} className="space-y-4">
+                            {transactionsInputConfig
+                            .filter(input => !(editingTransaction && input.type === "date"))
+                            .map((input, index) => (
+                                <FormInput
+                                key={index}
+                                label={input.label}
+                                type={input.type}
+                                name={input.name}
+                                value={formData[input.name as keyof typeof formData]}
+                                onChange={handleInputChange}
+                                options={input.options}
+                                />
+                            ))}
+                            <div>
+                                <Button
+                                    type="submit"
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Mettre à jour
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
+                </Modal>
             )}
         </div>
     );

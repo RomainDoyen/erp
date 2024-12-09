@@ -1,5 +1,11 @@
 import React from "react";
 
+export type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
 export type ButtonProps = {
   children: React.ReactNode | string;
   className?: string;

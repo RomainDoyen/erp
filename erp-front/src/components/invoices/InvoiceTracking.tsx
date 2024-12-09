@@ -5,6 +5,7 @@ import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
 import { invoicesInputConfig } from '../data/invoicesInputData';
 import Spinner from '../ui/Spinner';
+import Modal from '../ui/Modal';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -73,6 +74,10 @@ export default function InvoiceList() {
     }
   }
 
+  const closeModal = () => {
+    setEditingInvoice(null);
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold">Liste des Factures</h1>
@@ -113,27 +118,28 @@ export default function InvoiceList() {
       )}
     
       {editingInvoice && (
-        <form onSubmit={handleFormSubmit} className="mt-4">
+        <Modal isOpen={!!editingInvoice} onClose={closeModal}>
+          <form onSubmit={handleFormSubmit} className="mt-4">
+            {invoicesInputConfig.map((input, index) => (
+              <FormInput
+                key={index}
+                label={input.label}
+                type={input.type}
+                name={input.name}
+                value={formData[input.name as keyof typeof formData]}
+                onChange={e => setFormData({ ...formData, [input.name]: e.target.value })}
+                options={input.options}
+              />
+            ))}
 
-          {invoicesInputConfig.map((input, index) => (
-            <FormInput
-              key={index}
-              label={input.label}
-              type={input.type}
-              name={input.name}
-              value={formData[input.name as keyof typeof formData]}
-              onChange={e => setFormData({ ...formData, [input.name]: e.target.value })}
-              options={input.options}
-            />
-          ))}
-
-          <Button
-            type="submit"
-            className="mt-4 bg-green-500 hover:bg-blue-600 text-white p-2 rounded"
-          >
-            Mettre à jour
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="mt-4 bg-green-500 hover:bg-blue-600 text-white p-2 rounded"
+            >
+              Mettre à jour
+            </Button>
+          </form>
+        </Modal>
       )}
     </div>
   );
