@@ -3,6 +3,7 @@ import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
+import { invoicesInputConfig } from '../data/invoicesInputData';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -32,10 +33,10 @@ export default function InvoiceList() {
     const invoice = invoices.find((i: any) => i.id === id);
     setEditingInvoice(invoice);
     setFormData({
-      customer_name: invoice?.customer_name,
-      amount: invoice?.amount,
-      due_date: invoice?.due_date,
-      status: invoice?.status
+      customer_name: invoice?.customer_name || '',
+      amount: invoice?.amount || '',
+      due_date: invoice?.due_date || '',
+      status: invoice?.status || ''
     });
   }
 
@@ -103,35 +104,19 @@ export default function InvoiceList() {
     
       {editingInvoice && (
         <form onSubmit={handleFormSubmit} className="mt-4">
-          <FormInput
-            label="Client"
-            type="text"
-            name="customer_name"
-            value={formData.customer_name}
-            onChange={e => setFormData({ ...formData, customer_name: e.target.value })}
-          />
-          <FormInput 
-            label="Montant"
-            type="number"
-            name="amount"
-            value={formData.amount}
-            onChange={e => setFormData({ ...formData, amount: e.target.value })}
-          />
-          <FormInput
-            label="Date d'échéance"
-            type="date"
-            name="due_date"
-            value={formData.due_date}
-            onChange={e => setFormData({ ...formData, due_date: e.target.value })}
-          />
-          <FormInput
-            label="Statut"
-            type="select"
-            name="status"
-            value={formData.status}
-            onChange={e => setFormData({ ...formData, status: e.target.value })}
-            options={["Paid", "Pending", "Overdue"]}
-          />
+
+          {invoicesInputConfig.map((input, index) => (
+            <FormInput
+              key={index}
+              label={input.label}
+              type={input.type}
+              name={input.name}
+              value={formData[input.name as keyof typeof formData]}
+              onChange={e => setFormData({ ...formData, [input.name]: e.target.value })}
+              options={input.options}
+            />
+          ))}
+
           <Button
             type="submit"
             className="mt-4 bg-green-500 hover:bg-blue-600 text-white p-2 rounded"

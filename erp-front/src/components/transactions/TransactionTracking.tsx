@@ -3,6 +3,7 @@ import { fetchData, updateData, deleteData } from '../../utils/axios';
 import Button from '../ui/Button';
 import FormInput from '../ui/FormInput';
 import Table from '../ui/Table';
+import { transactionsInputConfig } from '../data/transactionsInputData';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -11,7 +12,7 @@ export default function TransactionTracking() {
     const [formData, setFormData] = useState({
         type: '',
         amount: '',
-        description: ''
+        description: '',
     });
 
     useEffect(() => {
@@ -41,9 +42,9 @@ export default function TransactionTracking() {
         const transaction = data.find((t: any) => t.id === id);
         setEditingTransaction(transaction);
         setFormData({
-            type: transaction?.type,
-            amount: transaction?.amount,
-            description: transaction?.description
+            type: transaction?.type || '',
+            amount: transaction?.amount || '',
+            description: transaction?.description || '',
         });
     };
 
@@ -111,32 +112,23 @@ export default function TransactionTracking() {
                 <div className="mt-6">
                     <h2 className="text-xl font-bold">Modifier la transaction</h2>
                     <form onSubmit={handleFormSubmit} className="space-y-4">
-                        <FormInput
-                            label="Type"
-                            type="select"
-                            name="type"
-                            value={formData.type}
+                        {transactionsInputConfig
+                        .filter(input => !(editingTransaction && input.type === "date"))
+                        .map((input, index) => (
+                            <FormInput
+                            key={index}
+                            label={input.label}
+                            type={input.type}
+                            name={input.name}
+                            value={formData[input.name as keyof typeof formData]}
                             onChange={handleInputChange}
-                            options={["Revenue", "Expense"]}
-                        />
-                        <FormInput
-                            label="Montant"
-                            type="number"
-                            name="amount"
-                            value={formData.amount}
-                            onChange={handleInputChange}
-                        />
-                        <FormInput
-                            label="Description"
-                            type="text"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                        />
+                            options={input.options}
+                            />
+                        ))}
                         <div>
                             <Button
                                 type="submit"
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Mettre à jour
                             </Button>
