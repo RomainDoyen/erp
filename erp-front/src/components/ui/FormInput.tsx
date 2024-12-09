@@ -6,8 +6,8 @@ const FormInput = React.forwardRef<
   FormInputProps
 >(({ label, type, name, error, options, ...rest }, ref) => {
   return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+    <div className="my-4 space-y-2">
+      <label className="block text-sm text-left font-medium text-gray-700">{label}</label>
       {type === "select" ? (
         <select
           name={name}
