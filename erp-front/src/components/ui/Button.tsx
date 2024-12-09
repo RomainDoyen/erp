@@ -9,7 +9,7 @@ const Button = ({
   loading = false,
   theme = "primary",
 }: ButtonProps) => {
-  const baseStyles = "w-full p-2 text-white rounded";
+  const baseStyles = "w-full p-2 mb-2 space-y-2 text-white rounded";
   const themeStyles =
     theme === "primary"
       ? `bg-blue-500 ${!disabled && !loading && "hover:bg-blue-600"}`
