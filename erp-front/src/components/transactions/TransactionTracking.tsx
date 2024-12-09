@@ -6,6 +6,7 @@ import Table from '../ui/Table';
 import { transactionsInputConfig } from '../data/transactionsInputData';
 import Spinner from '../ui/Spinner';
 import Modal from '../ui/Modal';
+import { showToastSuccess, showToastError } from '../../utils/toastConfig';
 
 export default function TransactionTracking() {
     const [data, setData] = useState([]);
@@ -36,11 +37,10 @@ export default function TransactionTracking() {
     const deleteTransaction = async (id: number) => {
         try {
             const result = await deleteData('transactions', id);
-            console.log("Transaction supprimée avec succès :", result);
-            alert("Transaction supprimée avec succès !");
+            showToastSuccess("Transaction supprimée avec succès !");
             setData(data.filter((transaction: any) => transaction.id !== id));
         } catch (error) {
-            console.error("Erreur lors de la suppression :", error);
+            showToastError(`Erreur lors de la suppression ! ${error}`);
         }
     };
 
@@ -60,15 +60,14 @@ export default function TransactionTracking() {
 
         try {
             const result = await updateData('transactions', editingTransaction.id, formData);
-            console.log("Transaction mise à jour avec succès :", result);
-            alert("Transaction mise à jour avec succès !");
+            showToastSuccess("Transaction mise à jour avec succès !");
             setEditingTransaction(null);
             const updatedData = data.map((transaction: any) =>
                 transaction.id === editingTransaction.id ? result : transaction
             );
             setData(updatedData);
         } catch (error) {
-            console.error("Erreur lors de la mise à jour :", error);
+            showToastError(`Erreur lors de la mise à jour ! ${error}`);
         }
     };
 

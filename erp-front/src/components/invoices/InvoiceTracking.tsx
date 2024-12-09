@@ -6,6 +6,7 @@ import Table from '../ui/Table';
 import { invoicesInputConfig } from '../data/invoicesInputData';
 import Spinner from '../ui/Spinner';
 import Modal from '../ui/Modal';
+import { showToastSuccess, showToastError } from '../../utils/toastConfig';
 
 export default function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
@@ -48,11 +49,10 @@ export default function InvoiceList() {
   const deleteInvoice = async (id: number) => {
     try {
       const result = await deleteData('invoices', id);
-      console.log("Invoice supprimée avec succès :", result);
-      alert("Invoice supprimée avec succès !");
+      showToastSuccess("Facture supprimée avec succès !");
       setInvoices(invoices.filter((invoice: any) => invoice.id !== id));
     } catch (error) {
-      console.error("Erreur lors de la suppression :", error);
+      showToastError(`Erreur lors de la suppression ! ${error}`);
     }
   }
 
@@ -62,15 +62,14 @@ export default function InvoiceList() {
 
     try {
       const result = await updateData('invoices', editingInvoice.id, formData);
-      console.log("Invoice mise à jour avec succès :", result);
-      alert("Invoice mise à jour avec succès !");
+      showToastSuccess("Facture mise à jour avec succès !");
       setEditingInvoice(null);
       const updatedData = invoices.map((invoice: any) =>
         invoice.id === editingInvoice.id ? result : invoice
       );
       setInvoices(updatedData);
     } catch (error) {
-      console.error("Erreur lors de la mise à jour :", error);
+      showToastError(`Erreur lors de la mise à jour ! ${error}`);
     }
   }
 
