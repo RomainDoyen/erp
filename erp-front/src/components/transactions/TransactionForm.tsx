@@ -6,10 +6,12 @@ import axios from "axios";
 import { useState } from "react";
 import { InputsTransaction } from "../../types/typesComponents";
 import { transactionsInputConfig } from "../../components/data/transactionsInputData";
+import { showToastSuccess, showToastError } from "../../utils/toastConfig";
 
 export default function TransactionForm() {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<InputsTransaction>();
@@ -26,16 +28,14 @@ export default function TransactionForm() {
       amount: parseFloat(data.amount.toString()),
     };
 
-    console.log("Données formatées envoyées :", formattedData);
-
     try {
       await fetchData("sanctum/csrf-cookie");
       const response = await createData("transactions", formattedData);
-      console.log("Transaction créée avec succès :", response.data);
-      alert("Transaction créée avec succès !");
+      showToastSuccess("Transaction créée avec succès !");
+      reset();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Erreur lors de la soumission :", error.response?.data);
+        showToastError(`Une erreur s'est produite lors de la soumission du formulaire. ${error.response?.data.message}`);
       }
       setSubmissionError("Une erreur s'est produite lors de la soumission du formulaire.");
     } finally {

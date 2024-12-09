@@ -6,10 +6,12 @@ import axios from "axios";
 import { useState } from "react";
 import { InputsInvoice } from "../../types/typesComponents";
 import { invoicesInputConfig } from "../data/invoicesInputData";
+import { showToastSuccess, showToastError } from "../../utils/toastConfig";
 
 export default function InvoiceForm() {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<InputsInvoice>();
@@ -29,15 +31,17 @@ export default function InvoiceForm() {
     try {
       await fetchData("sanctum/csrf-cookie");
       const response = await createData("invoices", formattedData);
-      alert("Transaction créée avec succès !");
-      console.log("Réponse serveur :", response.data);
+      showToastSuccess("Facture créée avec succès !");
+      reset();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const statusCode = error.response?.status;
         if (statusCode === 422) {
           setSubmissionError("Les données envoyées ne sont pas valides.");
+          showToastError(`Les données envoyées ne sont pas valides. ${error.response?.data.message}`);
         } else {
           setSubmissionError("Une erreur s'est produite. Veuillez réessayer.");
+          showToastError(`Une erreur s'est produite. Veuillez réessayer. ${error.response?.data.message}`);
         }
       }
     } finally {
