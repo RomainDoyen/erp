@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import axios from "axios";
 import { useState } from "react";
 import { InputsInvoice } from "../../types/typesComponents";
+import { invoicesInputConfig } from "../data/invoicesInputData";
 
 export default function InvoiceForm() {
   const {
@@ -49,55 +50,20 @@ export default function InvoiceForm() {
       <h1 className="text-xl font-bold">Formulaire des Revenus et Dépenses</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-        <FormInput
-          label="Nom du client"
-          type="text"
-          name="customer_name"
-          {...register("customer_name", {
-            required: "Le nom du client est requis",
-            maxLength: {
-              value: 255,
-              message: "Le nom ne peut pas dépasser 255 caractères",
-            },
-          })}
-          error={errors.customer_name?.message}
-        />
-
-        <FormInput
-          label="Montant"
-          type="number"
-          name="amount"
-          {...register("amount", {
-            required: "Le montant est requis",
-            min: 0,
-          })}
-          error={errors.amount?.message}
-        />
-
-        <FormInput
-          label="Échéance"
-          type="date"
-          name="due_date"
-          {...register("due_date", {
-            required: "La date d'échéance est requise",
-            validate: (value) =>
-              new Date(value) > new Date() || "La date doit être future",
-          })}
-          error={errors.due_date?.message}
-        />
-
-        <FormInput
-          label="Statut"
-          type="select"
-          name="status"
-          {...register("status", {
-            required: "Le statut est requis",
-            validate: (value) =>
-              ["Paid", "Pending", "Overdue"].includes(value) || "Statut invalide",
-          })}
-          options={["Paid", "Pending", "Overdue"]}
-          error={errors.status?.message}
-        />
+        {invoicesInputConfig.map((input, index) => (
+          <FormInput
+            key={index}
+            label={input.label}
+            type={input.type}
+            name={input.name}
+            error={errors[input.name as keyof InputsInvoice]?.message}
+            options={input.options || []}
+            {...register(input.name, {
+              required: input.required,
+              ...(input.validation || {}),
+            })}
+          />
+        ))}
 
         <Button
           type="submit"

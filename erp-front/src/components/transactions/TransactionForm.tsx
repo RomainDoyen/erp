@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import axios from "axios";
 import { useState } from "react";
 import { InputsTransaction } from "../../types/typesComponents";
+import { transactionsInputConfig } from "../../components/data/transactionsInputData";
 
 export default function TransactionForm() {
   const {
@@ -22,7 +23,7 @@ export default function TransactionForm() {
 
     const formattedData = {
       ...data,
-      amount: parseFloat(data.amount),
+      amount: parseFloat(data.amount.toString()),
     };
 
     console.log("Données formatées envoyées :", formattedData);
@@ -46,37 +47,18 @@ export default function TransactionForm() {
     <div className="p-6">
       <h1 className="text-xl font-bold">Formulaire des Revenus et Dépenses</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        
-        <FormInput
-          label="Type"
-          type="select"
-          name="type"
-          options={["Sélectionnez un type", "Revenue", "Expense"]}
-          {...register("type", { required: "Le type est requis" })}
-          error={errors.type?.message}
-        />
-          
-        <FormInput
-          label="Montant"
-          type="number"
-          name="amount"
-          {...register("amount", { required: "Le montant est requis", min: 0 })}
-          error={errors.amount?.message}
-        />
 
-        <FormInput
-          label="Description"
-          type="text"
-          name="description"
-          {...register("description", {
-            required: "La description est requise",
-            maxLength: {
-              value: 255,
-              message: "La description ne peut pas dépasser 255 caractères",
-            },
-          })}
-          error={errors.description?.message}
-        />
+        {transactionsInputConfig.map((input, index) => (
+          <FormInput
+            key={index}
+            label={input.label}
+            type={input.type}
+            name={input.name}
+            error={errors[input.name as keyof InputsTransaction]?.message}
+            options={input.options || []}
+            {...register(input.name, input.validation)}
+          />
+        ))}
 
         <Button 
           type="submit"

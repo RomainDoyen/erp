@@ -10,12 +10,28 @@ export type ButtonProps = {
   loading?: boolean;
 };
 
+export type ValidationRule = {
+  min?: {
+    value: number;
+    message?: string;
+    validate?: (value: string) => boolean | string;
+  };
+  maxLength?: {
+    value: number;
+    message?: string;
+    validate?: (value: string) => boolean | string;
+  };
+  validate?: (value: string) => boolean | string;
+  message?: string;
+};
+
 export type FormInputProps = {
   label: string;
   type: string;
   name: string;
   error?: string;
   options?: string[];
+  validation?: ValidationRule;
 } & React.InputHTMLAttributes<HTMLInputElement | HTMLSelectElement>;
 
 type Column<T> = {
